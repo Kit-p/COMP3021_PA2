@@ -115,6 +115,12 @@ public class SceneManager {
      */
     public void showPane(@NotNull final Class<? extends BasePane> pane) {
         //TODO
+        Scene scene = scenes.get(pane);
+        if (scene != null) {
+            this.showScene(scene);
+        } else {
+            throw new IllegalArgumentException("Unknown pane");
+        }
     }
 
     /**
