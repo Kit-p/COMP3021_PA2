@@ -7,7 +7,6 @@ import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.nio.file.Path;
 import java.util.Map;
 
 //import castle.comp3021.assignment.gui.views.panes.*;
@@ -70,8 +69,7 @@ public class SceneManager {
      */
     private SceneManager() {
         //TODO
-        String pathToStyleSheet = Path.of(ViewConfig.CSS_STYLES_PATH).toUri().toASCIIString();
-        scenes.forEach((pane, scene) -> scene.getStylesheets().add(pathToStyleSheet));
+        scenes.forEach((pane, scene) -> scene.getStylesheets().add(ViewConfig.CSS_STYLES_PATH));
     }
 
     /**
