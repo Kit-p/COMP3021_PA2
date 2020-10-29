@@ -54,7 +54,18 @@ public class ResourceLoader {
     @NotNull
     public static Image getImage(char typeChar) {
         // TODO
-        return null;
+        String path = "assets/images/";
+        path += switch (typeChar) {
+            case 'K' -> "whiteK.png";
+            case 'A' -> "whiteA.png";
+            case 'k' -> "blackK.png";
+            case 'a' -> "blackA.png";
+            case 'c' -> "center.png";
+            case 'l' -> "lightBoard.png";
+            case 'd' -> "darkBoard.png";
+            default  -> throw new ResourceNotFoundException(path + typeChar);
+        };
+        return new Image(getResource(path));
     }
 
 
