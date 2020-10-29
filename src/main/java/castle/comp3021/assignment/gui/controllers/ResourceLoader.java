@@ -32,7 +32,11 @@ public class ResourceLoader {
     @NotNull
     public static String getResource(@NotNull final String relativePath) {
         // TODO
-        return null;
+        Path path = RES_PATH.resolve(relativePath).toAbsolutePath();
+        if (!path.toFile().exists()) {
+            throw new ResourceNotFoundException(path.toString());
+        }
+        return path.toUri().toASCIIString();
     }
 
     /**
