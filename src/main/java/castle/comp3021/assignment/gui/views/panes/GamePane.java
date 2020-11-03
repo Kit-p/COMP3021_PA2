@@ -55,6 +55,8 @@ public class GamePane extends BasePane {
     @Override
     void connectComponents() {
         //TODO
+        this.container.getChildren().addAll(title, sizeBox, numMovesProtectionBox, isHumanPlayer1Button, isHumanPlayer2Button, useDefaultButton, playButton, returnButton);
+        this.setCenter(container);
     }
 
     @Override
