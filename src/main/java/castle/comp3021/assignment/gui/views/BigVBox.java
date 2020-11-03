@@ -29,5 +29,6 @@ public class BigVBox extends VBox {
 
     {
         // TODO: Add "big-vbox" style
+        this.getStyleClass().add("big-vbox");
     }
 }
