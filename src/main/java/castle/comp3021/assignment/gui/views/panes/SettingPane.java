@@ -70,6 +70,11 @@ public class SettingPane extends BasePane {
     @Override
     void connectComponents() {
         //TODO
+        fillValues();
+        this.leftContainer.getChildren().addAll(title, sizeBox, numMovesProtectionBox, durationBox, isHumanPlayer1Button, isHumanPlayer2Button, toggleSoundButton, saveButton, returnButton);
+        this.centerContainer.getChildren().add(infoText);
+        this.setLeft(leftContainer);
+        this.setCenter(centerContainer);
     }
 
     @Override
