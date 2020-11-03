@@ -179,6 +179,24 @@ public class SettingPane extends BasePane {
      */
     public static Optional<String> validate(int size, int numProtection, int duration) {
         //TODO
-        return null;
+        if (size < 3) {
+            return Optional.of(ViewConfig.MSG_BAD_SIZE_NUM);
+        }
+        if (size % 2 != 1) {
+            return Optional.of(ViewConfig.MSG_ODD_SIZE_NUM);
+        }
+        if (size > 26) {
+            return Optional.of(ViewConfig.MSG_UPPERBOUND_SIZE_NUM);
+        }
+
+        if (numProtection < 0) {
+            return Optional.of(ViewConfig.MSG_NEG_PROT);
+        }
+
+        if (duration <= 0) {
+            return Optional.of(ViewConfig.MSG_NEG_DURATION);
+        }
+
+        return Optional.empty();
     }
 }
