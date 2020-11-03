@@ -150,6 +150,22 @@ public class SettingPane extends BasePane {
      */
     private void returnToMainMenu(final boolean writeBack) {
         //TODO
+        if (writeBack) {
+            Optional<String> errorMessage = validate(sizeFiled.getValue(), numMovesProtectionField.getValue(), durationField.getValue());
+            if (errorMessage.isPresent()) {
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setHeaderText("Validation Failed");
+                errorAlert.setContentText(errorMessage.get());
+                errorAlert.showAndWait();
+                return;
+            } else {
+                globalConfiguration.setSize(sizeFiled.getValue());
+                globalConfiguration.setNumMovesProtection(numMovesProtectionField.getValue());
+                DurationTimer.setDefaultEachRound(durationField.getValue());
+            }
+        }
+        fillValues();
+        SceneManager.getInstance().showPane(MainMenuPane.class);
     }
 
     /**
