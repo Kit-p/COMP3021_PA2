@@ -133,6 +133,12 @@ public class GamePane extends BasePane {
      */
     void fillValues(){
         // TODO
+        this.sizeFiled.setText(String.valueOf(globalConfiguration.getSize()));
+        this.numMovesProtectionField.setText(String.valueOf(globalConfiguration.getNumMovesProtection()));
+        String playerType = globalConfiguration.isFirstPlayerHuman() ? "Human" : "Computer";
+        this.isHumanPlayer1Button.setText("Player 1: " + playerType);
+        playerType = globalConfiguration.isSecondPlayerHuman() ? "Human" : "Computer";
+        this.isHumanPlayer2Button.setText("Player 2: " + playerType);
     }
 
     /**
