@@ -1,13 +1,13 @@
 package castle.comp3021.assignment.gui.views.panes;
 
 import castle.comp3021.assignment.gui.controllers.SceneManager;
+import castle.comp3021.assignment.gui.views.BigButton;
+import castle.comp3021.assignment.gui.views.BigVBox;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
-import castle.comp3021.assignment.gui.views.BigButton;
-import castle.comp3021.assignment.gui.views.BigVBox;
 
 public class MainMenuPane extends BasePane {
     @NotNull
@@ -33,6 +33,8 @@ public class MainMenuPane extends BasePane {
     @Override
     void connectComponents() {
         // TODO
+        this.container.getChildren().addAll(title, playButton, settingsButton, validationButtion, quitButton);
+        this.setCenter(container);
     }
 
     /**
