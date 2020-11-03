@@ -22,5 +22,6 @@ public class BigButton extends Button {
 
     {
         // TODO: Add "big-button" style
+        this.getStyleClass().add("big-button");
     }
 }
