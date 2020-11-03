@@ -132,6 +132,15 @@ public class SettingPane extends BasePane {
      */
     private void fillValues() {
         // TODO
+        this.sizeFiled.setText(String.valueOf(globalConfiguration.getSize()));
+        this.numMovesProtectionField.setText(String.valueOf(globalConfiguration.getNumMovesProtection()));
+        String buttonText = globalConfiguration.isFirstPlayerHuman() ? "Human" : "Computer";
+        this.isHumanPlayer1Button.setText("Player 1: " + buttonText);
+        buttonText = globalConfiguration.isSecondPlayerHuman() ? "Human" : "Computer";
+        this.isHumanPlayer2Button.setText("Player 2: " + buttonText);
+        buttonText = AudioManager.getInstance().isEnabled() ? "Enabled" : "Disabled";
+        this.toggleSoundButton.setText("Sound FX: " + buttonText);
+        durationField.setText(String.valueOf(DurationTimer.getDefaultEachRound()));
     }
 
     /**
