@@ -6,6 +6,9 @@ import castle.comp3021.assignment.gui.controllers.SceneManager;
 import castle.comp3021.assignment.gui.views.BigButton;
 import castle.comp3021.assignment.gui.views.BigVBox;
 import castle.comp3021.assignment.gui.views.NumberTextField;
+import castle.comp3021.assignment.protocol.Configuration;
+import castle.comp3021.assignment.protocol.Player;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -78,6 +81,39 @@ public class GamePane extends BasePane {
     @Override
     void setCallbacks() {
         //TODO
+        this.isHumanPlayer1Button.setOnAction(actionEvent -> {
+            boolean isFirstPlayerHuman = !globalConfiguration.isFirstPlayerHuman();
+            globalConfiguration.setFirstPlayerHuman(isFirstPlayerHuman);
+            String playerType = isFirstPlayerHuman ? "Human" : "Computer";
+            this.isHumanPlayer1Button.setText("Player 1: " + playerType);
+        });
+        this.isHumanPlayer2Button.setOnAction(actionEvent -> {
+            boolean isSecondPlayerHuman = !globalConfiguration.isSecondPlayerHuman();
+            globalConfiguration.setSecondPlayerHuman(isSecondPlayerHuman);
+            String playerType = isSecondPlayerHuman ? "Human" : "Computer";
+            this.isHumanPlayer2Button.setText("Player 2: " + playerType);
+        });
+        this.useDefaultButton.setOnAction(actionEvent -> fillValues());
+        this.playButton.setOnAction(actionEvent -> {
+            Optional<String> errorMessage = validate(sizeFiled.getValue(), numMovesProtectionField.getValue());
+            if (errorMessage.isPresent()) {
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setHeaderText("Validation Failed");
+                errorAlert.setContentText(errorMessage.get());
+                errorAlert.showAndWait();
+            } else {
+                Player[] players = globalConfiguration.getPlayers();
+                try {
+                    players = new Player[]{players[0].clone(), players[1].clone()};
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+                Configuration configuration = new Configuration(sizeFiled.getValue(), players, numMovesProtectionField.getValue());
+                this.fxJesonMor = new FXJesonMor(configuration);
+                this.startGame(fxJesonMor);
+            }
+        });
+        this.returnButton.setOnAction(actionEvent -> SceneManager.getInstance().showPane(MainMenuPane.class));
     }
 
     /**
