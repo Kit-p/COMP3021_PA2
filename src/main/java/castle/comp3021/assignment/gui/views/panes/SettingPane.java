@@ -1,12 +1,15 @@
 package castle.comp3021.assignment.gui.views.panes;
+
 import castle.comp3021.assignment.gui.DurationTimer;
 import castle.comp3021.assignment.gui.ViewConfig;
 import castle.comp3021.assignment.gui.controllers.AudioManager;
+import castle.comp3021.assignment.gui.controllers.SceneManager;
 import castle.comp3021.assignment.gui.views.BigButton;
 import castle.comp3021.assignment.gui.views.BigVBox;
 import castle.comp3021.assignment.gui.views.NumberTextField;
 import castle.comp3021.assignment.gui.views.SideMenuVBox;
 import castle.comp3021.assignment.protocol.Configuration;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -101,6 +104,27 @@ public class SettingPane extends BasePane {
     @Override
     void setCallbacks() {
         //TODO
+        this.isHumanPlayer1Button.setOnAction(actionEvent -> {
+            boolean isFirstPlayerHuman = !globalConfiguration.isFirstPlayerHuman();
+            globalConfiguration.setFirstPlayerHuman(isFirstPlayerHuman);
+            String playerType = isFirstPlayerHuman ? "Human" : "Computer";
+            this.isHumanPlayer1Button.setText("Player 1: " + playerType);
+        });
+        this.isHumanPlayer2Button.setOnAction(actionEvent -> {
+            boolean isSecondPlayerHuman = !globalConfiguration.isSecondPlayerHuman();
+            globalConfiguration.setSecondPlayerHuman(isSecondPlayerHuman);
+            String playerType = isSecondPlayerHuman ? "Human" : "Computer";
+            this.isHumanPlayer2Button.setText("Player 2: " + playerType);
+        });
+        this.toggleSoundButton.setOnAction(actionEvent -> {
+            AudioManager audioManager = AudioManager.getInstance();
+            boolean isEnabled = !audioManager.isEnabled();
+            audioManager.setEnabled(isEnabled);
+            String toggleText = isEnabled ? "Enabled" : "Disabled";
+            this.toggleSoundButton.setText("Sound FX: " + toggleText);
+        });
+        this.saveButton.setOnAction(actionEvent -> returnToMainMenu(true));
+        this.returnButton.setOnAction(actionEvent -> returnToMainMenu(false));
     }
 
     /**
