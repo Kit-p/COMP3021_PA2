@@ -2,6 +2,7 @@ package castle.comp3021.assignment.protocol;
 
 import castle.comp3021.assignment.piece.Archer;
 import castle.comp3021.assignment.piece.Knight;
+import castle.comp3021.assignment.player.ConsolePlayer;
 import castle.comp3021.assignment.player.RandomPlayer;
 import castle.comp3021.assignment.protocol.exception.InvalidConfigurationError;
 
@@ -183,7 +184,7 @@ public class Configuration implements Cloneable {
      */
     public boolean isFirstPlayerHuman(){
         //TODO
-        return false;
+        return (players[0] instanceof ConsolePlayer);
     }
 
     /**
@@ -192,7 +193,7 @@ public class Configuration implements Cloneable {
      */
     public boolean isSecondPlayerHuman(){
         //TODO
-        return false;
+        return (players[1] instanceof ConsolePlayer);
     }
 
     /**
@@ -201,6 +202,10 @@ public class Configuration implements Cloneable {
      */
     public void setFirstPlayerHuman(boolean isHuman){
         //TODO
+        if (isFirstPlayerHuman() == isHuman) {
+            return;
+        }
+        players[0] = isHuman ? new ConsolePlayer("White") : new RandomPlayer("White");
     }
 
     /**
@@ -209,6 +214,10 @@ public class Configuration implements Cloneable {
      */
     public void setSecondPlayerHuman(boolean isHuman){
         //TODO
+        if (isSecondPlayerHuman() == isHuman) {
+            return;
+        }
+        players[1] = isHuman ? new ConsolePlayer("Black") : new RandomPlayer("Black");
     }
 
 
@@ -255,6 +264,13 @@ public class Configuration implements Cloneable {
     @Override
     public String toString() {
         // TODO
-        return "";
+        return "size:" + size +
+                "\nnumMovesProtection:" + numMovesProtection +
+                "\ncentralPlace:" + centralPlace.toString() +
+                "\nnumPlayers:" + players.length +
+                "\n\n#Player info\n#player1:" +
+                "\nname:" + players[0].getName() + ", score:" + players[0].getScore() +
+                "\nplayer2:" +
+                "\nname:" + players[1].getName() + ", score:" + players[1].getScore();
     }
 }
