@@ -1,5 +1,6 @@
 package castle.comp3021.assignment.gui.controllers;
 
+import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.util.HashSet;
@@ -63,7 +64,18 @@ public class AudioManager {
      */
     private void playFile(final String name) {
         //TODO
-
+        if (this.enabled) {
+            String path = "assets/audio/" + name + ".mp3";
+            path = ResourceLoader.getResource(path);
+            MediaPlayer mediaPlayer = new MediaPlayer(new Media(path));
+            mediaPlayer.setOnEndOfMedia(() -> {
+                mediaPlayer.stop();
+                this.soundPool.remove(mediaPlayer);
+                mediaPlayer.dispose();
+            });
+            this.soundPool.add(mediaPlayer);
+            mediaPlayer.play();
+        }
     }
 
     /**
