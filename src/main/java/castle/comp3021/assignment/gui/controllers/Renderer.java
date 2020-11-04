@@ -100,4 +100,17 @@ public class Renderer {
         //TODO
     }
 
+    /**
+     * Helper method to draw image on canvas
+     * @param gc the graphics context of the canvas
+     * @param image the image to be drawn
+     * @param x x-coordinate relative to gc
+     * @param y y-coordinate relative to gc
+     */
+    private static void drawImage(@NotNull GraphicsContext gc, Image image, double x, double y) {
+        gc.save();
+        gc.drawImage(image, x, y);
+        gc.restore();
+    }
+
 }
