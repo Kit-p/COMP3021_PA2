@@ -89,6 +89,20 @@ public class Renderer {
      */
     public static void renderChessBoard(@NotNull Canvas canvas, int boardSize, Place centerPlace){
         //TODO
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                char boardCellColor = ((i + j) % 2 == 0) ? 'l' : 'd';
+                Image boardCellImage = ResourceLoader.getImage(boardCellColor);
+                double x = i * ViewConfig.PIECE_SIZE;
+                double y = j * ViewConfig.PIECE_SIZE;
+                drawImage(gc, boardCellImage, x, y);
+            }
+        }
+        Image centralPlaceImage = ResourceLoader.getImage('c');
+        double x = centerPlace.x() * ViewConfig.PIECE_SIZE;
+        double y = centerPlace.y() * ViewConfig.PIECE_SIZE;
+        drawImage(gc, centralPlaceImage, x, y);
     }
 
     /**
