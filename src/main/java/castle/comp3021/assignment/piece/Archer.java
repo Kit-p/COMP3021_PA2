@@ -72,8 +72,12 @@ public class Archer extends Piece {
      */
     public Renderer.@NotNull CellImage getImageRep() {
         // TODO
-
-        return null;
+        char imageType = switch (this.getPlayer().getName()) {
+            case "White" -> 'A';
+            case "Black" -> 'a';
+            default -> throw new IllegalStateException("Invalid player name");
+        };
+        return new Renderer.CellImage(ResourceLoader.getImage(imageType));
     }
 
 
