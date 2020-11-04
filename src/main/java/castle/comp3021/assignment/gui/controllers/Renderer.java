@@ -5,6 +5,7 @@ import castle.comp3021.assignment.protocol.Place;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -51,6 +52,11 @@ public class Renderer {
      */
     public static void drawOval(@NotNull GraphicsContext gc, double x, double y) {
         // TODO
+        gc.setFill(Color.rgb(255, 255, 220));
+        gc.fillOval(x, y, 12, 12);
+        gc.fill();
+        gc.setStroke(Color.WHITE);
+        gc.stroke();
     }
 
     /**
