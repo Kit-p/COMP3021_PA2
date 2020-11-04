@@ -1,5 +1,6 @@
 package castle.comp3021.assignment.gui.controllers;
 
+import castle.comp3021.assignment.gui.ViewConfig;
 import castle.comp3021.assignment.protocol.Piece;
 import castle.comp3021.assignment.protocol.Place;
 import javafx.scene.canvas.Canvas;
@@ -68,6 +69,14 @@ public class Renderer {
      */
     public static void drawRectangle(@NotNull GraphicsContext gc, double x, double y){
         //TODO
+        gc.save();
+        gc.setFill(Color.rgb(255, 255, 220));
+        int size = ViewConfig.PIECE_SIZE;
+        gc.fillRect(x * size, y * size, size, size);
+        gc.fill();
+        gc.setStroke(Color.WHITE);
+        gc.stroke();
+        gc.restore();
     }
 
     /**
