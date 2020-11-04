@@ -112,6 +112,18 @@ public class Renderer {
      */
     public static void renderPieces(@NotNull Canvas canvas, @NotNull Piece[][] board) {
         //TODO
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                Piece piece = board[i][j];
+                if (piece != null) {
+                    CellImage cellImage = piece.getImageRep();
+                    double x = i * ViewConfig.PIECE_SIZE;
+                    double y = j * ViewConfig.PIECE_SIZE;
+                    drawImage(gc, cellImage.image, x, y);
+                }
+            }
+        }
     }
 
     /**
