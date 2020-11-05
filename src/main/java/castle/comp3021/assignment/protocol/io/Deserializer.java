@@ -45,7 +45,14 @@ public class Deserializer {
     @Nullable
     private String getFirstNonEmptyLine(@NotNull final BufferedReader br) throws IOException {
         // TODO
-        return "";
+        String line = br.readLine();
+        while (line != null) {
+            if (!line.isBlank() && !line.startsWith("#")) {
+                return line;
+            }
+            line = br.readLine();
+        }
+        return null;
     }
 
     public void parseGame() {
