@@ -182,7 +182,9 @@ public class Deserializer {
      */
     private MoveRecord parseMoveRecord(String moveRecordString){
         // TODO
-        return null;
+        Player player = new ConsolePlayer(moveRecordString.split("; ")[0].split(":")[1].strip());
+        Move move = parseMove(moveRecordString.split("; ")[1]);
+        return new MoveRecord(player, move);
     }
 
     /**
