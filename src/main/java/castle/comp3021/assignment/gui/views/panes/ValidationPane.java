@@ -14,7 +14,9 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.concurrent.Task;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -203,6 +205,11 @@ public class ValidationPane extends BasePane{
      */
     private void passValidationWindow(){
         //TODO
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm");
+        alert.setHeaderText("Pass validation!");
+        alert.getButtonTypes().setAll(ButtonType.OK);
+        alert.showAndWait();
     }
 
     /**
