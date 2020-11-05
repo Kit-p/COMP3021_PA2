@@ -194,4 +194,20 @@ public class ValidationPane extends BasePane{
         return null;
     }
 
+    /**
+     * Reset everything
+     */
+    private void unloadFile() {
+        this.loadedConfiguration = null;
+        this.storedScores = null;
+        this.loadedMoveRecords = null;
+        this.loadedcentralPlace = null;
+        this.loadedGame = null;
+        this.gamePlayCanvas.setHeight(0);
+        this.gamePlayCanvas.setWidth(0);
+        this.isValid.set(false);
+        this.validationButton.setDisable(true);
+        this.replayButton.setDisable(true);
+    }
+
 }
