@@ -193,7 +193,16 @@ public class Deserializer {
      */
     private Move parseMove(String moveString) {
         // TODO
-        return null;
+        String[] places = moveString.split("->");
+        if (places.length != 2) {
+            throw new InvalidConfigurationError("Move should have a source and a destination");
+        }
+        Place source = parsePlace(places[0].strip());
+        Place destination = parsePlace(places[1].strip());
+        if (source == null || destination == null) {
+            throw new InvalidConfigurationError("Place is empty");
+        }
+        return new Move(source, destination);
     }
 
     /**
