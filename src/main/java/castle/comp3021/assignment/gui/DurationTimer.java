@@ -85,6 +85,7 @@ public class DurationTimer {
      */
     void stop() {
         //TODO
+        flowTimer.cancel();
     }
 
 }
