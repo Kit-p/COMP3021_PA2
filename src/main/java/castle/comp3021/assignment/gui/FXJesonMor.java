@@ -62,6 +62,15 @@ public class FXJesonMor extends JesonMor {
         durationTimer.registerTickCallback(handler);
     }
 
+    /**
+     * Adds a handler to be run when time is up.
+     *
+     * @param handler {@link Runnable} to execute.
+     */
+    public void addOnTimeUpHandler(@NotNull Runnable handler) {
+        durationTimer.registerTimeUpCallback(handler);
+    }
+
 
     /**
      * Starts the timer
