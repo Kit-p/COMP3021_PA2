@@ -195,6 +195,10 @@ public class ValidationPane extends BasePane{
      */
     private void showErrorMsg(){
         //TODO
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error!");
+        alert.setContentText("You haven't loaded a record, Please load first.");
+        alert.showAndWait();
     }
 
     /**
