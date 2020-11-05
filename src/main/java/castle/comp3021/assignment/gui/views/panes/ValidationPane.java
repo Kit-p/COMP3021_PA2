@@ -184,6 +184,79 @@ public class ValidationPane extends BasePane{
      */
     private boolean validateHistory(){
         //TODO
+        if (this.loadedConfiguration == null || this.loadedcentralPlace == null
+                || this.loadedMoveRecords.size() <= 0 || this.storedScores == null) {
+            this.showErrorMsg();
+            return false;
+        }
+        try {
+            int size = loadedConfiguration.getSize();
+            Player[] players = loadedConfiguration.getPlayers();
+            int numMovesProtection = loadedConfiguration.getNumMovesProtection();
+            new Configuration(size, players, numMovesProtection);
+        } catch (InvalidConfigurationError e) {
+            this.showErrorConfiguration(e.getMessage());
+            return false;
+        }
+        if (!(loadedConfiguration.getCentralPlace().equals(loadedcentralPlace))) {
+            this.showErrorConfiguration("Invalid central place");
+            return false;
+        }
+        this.loadedGame = new FXJesonMor(this.loadedConfiguration);
+        String ruleViolationReason = null;
+        Player winner = null;
+        int numMoveRecords = loadedMoveRecords.size();
+        for (int i = 0; i < numMoveRecords; i++) {
+            MoveRecord moveRecord = loadedMoveRecords.get(i);
+            Player player = loadedGame.getCurrentPlayer();
+            Move move = moveRecord.getMove();
+            ruleViolationReason = player.validateMove(loadedGame, move);
+            if (ruleViolationReason != null) {
+                break;
+            }
+            Piece piece = loadedGame.getPiece(move.getSource());
+            try {
+                this.loadedGame.movePiece(move);
+            } catch (Exception e) {
+                ruleViolationReason = e.getMessage();
+                break;
+            }
+            this.loadedGame.updateScore(player, piece, move);
+            this.loadedGame.switchPlayer();
+            winner = loadedGame.getWinner(player, piece, move);
+            if (winner != null) {
+                if (i < numMoveRecords - 1) {
+                    ruleViolationReason = "Game ended too early!";
+                    break;
+                }
+                for (int j = 0; j < storedScores.length; j++) {
+                    int playerScore;
+                    try {
+                        playerScore = loadedGame.getConfiguration().getPlayers()[j].getScore();
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        ruleViolationReason = "Too many stored scores!";
+                        break;
+                    }
+                    if (this.storedScores[j] != playerScore) {
+                        System.out.println("Stored: " + storedScores[j]);
+                        System.out.println("Computed: " + playerScore);
+                        ruleViolationReason = "Player score does not match";
+                        break;
+                    }
+                }
+                if (ruleViolationReason != null) {
+                    break;
+                }
+            }
+        }
+        if (winner == null) {
+            ruleViolationReason = "No winner produced!";
+        }
+        if (ruleViolationReason != null) {
+            this.showErrorConfiguration(ruleViolationReason);
+            return false;
+        }
+        this.loadedGame = null;
         return true;
     }
 
