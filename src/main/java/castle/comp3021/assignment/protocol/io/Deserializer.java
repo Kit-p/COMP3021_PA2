@@ -204,7 +204,19 @@ public class Deserializer {
      */
     private Place parsePlace(String placeString) {
         //TODO
-        return null;
+        placeString = placeString.replace("(", "").replace(")", "");
+        String[] coordinates = placeString.split(",");
+        if (coordinates.length != 2) {
+            return null;
+        }
+        int x, y;
+        try {
+            x = Integer.parseInt(coordinates[0].strip());
+            y = Integer.parseInt(coordinates[1].strip());
+        } catch (NumberFormatException e) {
+            throw new InvalidConfigurationError("Invalid coordinates");
+        }
+        return new Place(x, y);
     }
 
 
