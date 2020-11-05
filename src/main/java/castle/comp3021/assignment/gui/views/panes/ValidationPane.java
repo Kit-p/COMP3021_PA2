@@ -372,6 +372,7 @@ public class ValidationPane extends BasePane{
         this.loadedMoveRecords = null;
         this.loadedcentralPlace = null;
         this.loadedGame = null;
+        this.onloadErrorMessage = null;
         this.gamePlayCanvas.setHeight(0);
         this.gamePlayCanvas.setWidth(0);
         this.isValid.set(false);
