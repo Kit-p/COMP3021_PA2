@@ -153,8 +153,9 @@ public class Deserializer {
              * - {@link Deserializer#parsePlace(String)} ()}
              */
             line = getFirstNonEmptyLine(reader);
-            while (line != null && !line.startsWith("END")) {
+            while (line != null && !line.contains("END")) {
                 this.moveRecords.add(parseMoveRecord(line.strip()));
+                line = getFirstNonEmptyLine(reader);
             }
 
         } catch (IOException ioe) {
