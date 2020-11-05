@@ -226,7 +226,10 @@ public class ValidationPane extends BasePane{
     @Nullable
     private File getTargetLoadFile() {
         //TODO
-        return null;
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter mapFilter = new FileChooser.ExtensionFilter("Map File", "*.map");
+        fileChooser.setSelectedExtensionFilter(mapFilter);
+        return fileChooser.showOpenDialog(null);
     }
 
     /**
