@@ -93,8 +93,6 @@ public class ValidationPane extends BasePane{
     void setCallbacks() {
         //TODO
         this.unloadFile();
-        this.validationButton.setDisable(true);
-        this.replayButton.setDisable(true);
         this.loadButton.setOnAction(actionEvent -> {
             this.replayButton.setDisable(true);
             if (loadFromFile()) {
