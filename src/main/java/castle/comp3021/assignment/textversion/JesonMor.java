@@ -192,6 +192,13 @@ public class JesonMor extends Game {
     @Override
     public String toString() {
         //TODO
-        return "";
+        StringBuilder moveRecords = new StringBuilder();
+        for (MoveRecord moveRecord : this.moveRecords) {
+            moveRecords.append("\n");
+            moveRecords.append(moveRecord.toString());
+        }
+        return "### FXJesonMor ###\n\n#Game setting\n"
+                + this.configuration.toString() + "\n\n#Move records"
+                + moveRecords.toString() + "\n\nEND";
     }
 }
