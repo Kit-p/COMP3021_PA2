@@ -10,6 +10,7 @@ import castle.comp3021.assignment.protocol.*;
 import castle.comp3021.assignment.protocol.exception.InvalidConfigurationError;
 import castle.comp3021.assignment.protocol.exception.InvalidGameException;
 import castle.comp3021.assignment.protocol.io.Deserializer;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.concurrent.Task;
@@ -171,6 +172,33 @@ public class ValidationPane extends BasePane{
      */
     private void onClickReplayButton(){
         //TODO
+        if (!(isValid.get())) {
+            return;
+        }
+        this.loadedGame = new FXJesonMor(loadedConfiguration);
+        int size = loadedConfiguration.getSize() * ViewConfig.PIECE_SIZE;
+        this.gamePlayCanvas.setHeight(size);
+        this.gamePlayCanvas.setWidth(size);
+        this.loadedGame.renderBoard(gamePlayCanvas);
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() {
+                for (MoveRecord moveRecord : loadedMoveRecords) {
+                    Platform.runLater(() -> {
+                        AudioManager.getInstance().playSound(AudioManager.SoundRes.PLACE);
+                        loadedGame.movePiece(moveRecord.getMove());
+                        loadedGame.renderBoard(gamePlayCanvas);
+                    });
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                return null;
+            }
+        };
+        new Thread(task).start();
     }
 
     /**
