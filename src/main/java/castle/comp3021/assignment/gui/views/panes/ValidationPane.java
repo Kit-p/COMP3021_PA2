@@ -1,9 +1,14 @@
 package castle.comp3021.assignment.gui.views.panes;
 
 import castle.comp3021.assignment.gui.FXJesonMor;
-import castle.comp3021.assignment.protocol.Configuration;
-import castle.comp3021.assignment.protocol.MoveRecord;
-import castle.comp3021.assignment.protocol.Place;
+import castle.comp3021.assignment.gui.ViewConfig;
+import castle.comp3021.assignment.gui.controllers.AudioManager;
+import castle.comp3021.assignment.gui.controllers.SceneManager;
+import castle.comp3021.assignment.gui.views.BigButton;
+import castle.comp3021.assignment.gui.views.BigVBox;
+import castle.comp3021.assignment.protocol.*;
+import castle.comp3021.assignment.protocol.exception.InvalidConfigurationError;
+import castle.comp3021.assignment.protocol.exception.InvalidGameException;
 import castle.comp3021.assignment.protocol.io.Deserializer;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -15,11 +20,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import castle.comp3021.assignment.gui.views.BigButton;
-import castle.comp3021.assignment.gui.views.BigVBox;
 
 import java.io.File;
-import java.util.*;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 
 public class ValidationPane extends BasePane{
@@ -52,6 +56,8 @@ public class ValidationPane extends BasePane{
     private ArrayList<MoveRecord> loadedMoveRecords = new ArrayList<>();
 
     private BooleanProperty isValid = new SimpleBooleanProperty(false);
+
+    private String onloadErrorMessage = null;
 
 
     public ValidationPane() {
@@ -112,7 +118,24 @@ public class ValidationPane extends BasePane{
      */
     private boolean loadFromFile() {
         //TODO
-        return false;
+        File file = getTargetLoadFile();
+        if (file == null) {
+            return false;
+        }
+        try {
+            Deserializer deserializer = new Deserializer(file.toPath());
+            deserializer.parseGame();
+            this.loadedConfiguration = deserializer.getLoadedConfiguration();
+            this.storedScores = deserializer.getStoredScores();
+            this.loadedMoveRecords = deserializer.getMoveRecords();
+            this.loadedcentralPlace = loadedConfiguration.getCentralPlace();
+        } catch (FileNotFoundException e) {
+            this.showErrorConfiguration(e.getMessage());
+            return false;
+        } catch (InvalidConfigurationError | InvalidGameException e) {
+            this.onloadErrorMessage = e.getMessage();
+        }
+        return true;
     }
 
     /**
