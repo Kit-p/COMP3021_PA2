@@ -69,6 +69,15 @@ public class DurationTimer {
      */
     void start() {
         //TODO
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                ticksElapsed++;
+                onTickCallbacks.forEach(Runnable::run);
+                onTimeUpCallbacks.forEach(Runnable::run);
+            }
+        };
+        flowTimer.scheduleAtFixedRate(timerTask, 1000L, 1000L);
     }
 
     /**
