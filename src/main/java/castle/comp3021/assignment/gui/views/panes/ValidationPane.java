@@ -212,6 +212,8 @@ public class ValidationPane extends BasePane{
      */
     private void returnToMainMenu(){
         // TODO
+        this.unloadFile();
+        SceneManager.getInstance().showPane(MainMenuPane.class);
     }
 
 
