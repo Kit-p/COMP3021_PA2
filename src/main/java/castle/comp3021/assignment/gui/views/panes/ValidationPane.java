@@ -121,6 +121,7 @@ public class ValidationPane extends BasePane{
      */
     private boolean loadFromFile() {
         //TODO
+        this.unloadFile();
         File file = getTargetLoadFile();
         if (file == null) {
             return false;
