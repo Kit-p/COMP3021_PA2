@@ -114,5 +114,8 @@ public class FXJesonMor extends JesonMor {
 
         // update score to 2 properties
         // TODO: update scorePlayer1Property and scorePlayer2Property
+        Player[] players = this.configuration.getPlayers();
+        Platform.runLater(() -> this.scorePlayer1Property.set(players[0].getScore()));
+        Platform.runLater(() -> this.scorePlayer2Property.set(players[1].getScore()));
     }
 }
