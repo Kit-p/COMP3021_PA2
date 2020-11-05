@@ -23,6 +23,8 @@ public class DurationTimer {
 
     private final List<Runnable> onTickCallbacks = new ArrayList<>();
 
+    private final List<Runnable> onTimeUpCallbacks = new ArrayList<>();
+
     /**
      * time elapsed
      */
@@ -49,6 +51,14 @@ public class DurationTimer {
      */
     void registerTickCallback(@NotNull final Runnable cb) {
         onTickCallbacks.add(cb);
+    }
+
+    /**
+     *  Registers a callback to be run when time is up.
+     * @param cb
+     */
+    void registerTimeUpCallback(@NotNull final Runnable cb) {
+        onTimeUpCallbacks.add(cb);
     }
 
 
