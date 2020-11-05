@@ -185,6 +185,11 @@ public class ValidationPane extends BasePane{
      */
     private void showErrorConfiguration(String errorMsg){
         // TODO
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Invalid configuration or game process!");
+        alert.setHeaderText("Due to following reason(s):");
+        alert.setContentText(errorMsg);
+        alert.showAndWait();
     }
 
     /**
