@@ -29,6 +29,13 @@ public class FXJesonMor extends JesonMor {
      */
     public FXJesonMor(Configuration configuration){
         //TODO
+        super(configuration);
+        for (Player player : this.configuration.getPlayers()) {
+            player.setScore(0);
+        }
+        this.configuration.setAllInitialPieces();
+        this.durationTimer = new DurationTimer();
+        this.board = this.configuration.getInitialBoard();
     }
 
     /**
