@@ -2,6 +2,8 @@ package castle.comp3021.assignment.gui.views;
 
 import castle.comp3021.assignment.gui.DurationTimer;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.StringBinding;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Label;
@@ -72,5 +74,19 @@ public class GameplayInfoPane extends BigVBox {
     private void bindTo(IntegerProperty score1Property, IntegerProperty score2Property, StringProperty curPlayer,
                         IntegerProperty ticksElapsed) {
         // TODO
+        StringBinding player1ScoreBinding = Bindings.createStringBinding(() -> "Score of player 1: "
+                + score1Property.get(), score1Property);
+        this.score1Label.textProperty().bind(player1ScoreBinding);
+        StringBinding player2ScoreBinding = Bindings.createStringBinding(() -> "Score of player 2: "
+                + score2Property.get(), score2Property);
+        this.score2Label.textProperty().bind(player2ScoreBinding);
+        StringBinding playerNameBinding = Bindings.createStringBinding(() -> "Current player: "
+                + curPlayer.get(), curPlayer);
+        this.curPlayerLabel.textProperty().bind(playerNameBinding);
+        StringBinding timerBinding = Bindings.createStringBinding(() -> {
+            int time = ticksElapsed.get();
+            return countdownFormat(time);
+        }, ticksElapsed);
+        this.timerLabel.textProperty().bind(timerBinding);
     }
 }
