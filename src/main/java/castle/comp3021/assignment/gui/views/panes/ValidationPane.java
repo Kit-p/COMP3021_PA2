@@ -63,6 +63,11 @@ public class ValidationPane extends BasePane{
     @Override
     void connectComponents() {
         // TODO
+        this.leftContainer.getChildren().addAll(title, explanation
+                , loadButton, validationButton, replayButton, returnButton);
+        this.centerContainer.getChildren().addAll(gamePlayCanvas);
+        this.setLeft(leftContainer);
+        this.setCenter(centerContainer);
     }
 
     @Override
