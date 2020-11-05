@@ -149,6 +149,18 @@ public class ValidationPane extends BasePane{
      */
     private void onClickValidationButton(){
         //TODO
+        if (this.onloadErrorMessage != null) {
+            this.showErrorConfiguration(onloadErrorMessage);
+            return;
+        }
+        if (validateHistory()) {
+            this.passValidationWindow();
+            this.isValid.set(true);
+            this.validationButton.setDisable(true);
+            this.replayButton.setDisable(false);
+        } else {
+            this.unloadFile();
+        }
     }
 
     /**
