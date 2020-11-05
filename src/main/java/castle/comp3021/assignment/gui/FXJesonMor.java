@@ -118,4 +118,13 @@ public class FXJesonMor extends JesonMor {
         Platform.runLater(() -> this.scorePlayer1Property.set(players[0].getScore()));
         Platform.runLater(() -> this.scorePlayer2Property.set(players[1].getScore()));
     }
+
+    /**
+     * Update number of moves and switch players
+     */
+    public void switchPlayer() {
+        this.numMoves++;
+        this.currentPlayer = getCurrentPlayer();
+        Platform.runLater(() -> this.currentPlayerNameProperty.set(currentPlayer.getName()));
+    }
 }
