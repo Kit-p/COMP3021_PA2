@@ -1,6 +1,8 @@
 package castle.comp3021.assignment.protocol.io;
 
+import castle.comp3021.assignment.player.ConsolePlayer;
 import castle.comp3021.assignment.protocol.*;
+import castle.comp3021.assignment.protocol.exception.InvalidConfigurationError;
 import castle.comp3021.assignment.protocol.exception.InvalidGameException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -63,6 +65,11 @@ public class Deserializer {
             line = getFirstNonEmptyLine(reader);
             if (line != null) {
                 // TODO: get size here
+                try {
+                    size = Integer.parseInt(line.split(":")[1].strip());
+                } catch (NumberFormatException e) {
+                    throw new InvalidConfigurationError("Invalid board size");
+                }
             } else {
                 throw new InvalidGameException("Unexpected EOF when parsing number of board size");
             }
@@ -71,6 +78,11 @@ public class Deserializer {
             line = getFirstNonEmptyLine(reader);
             if (line != null) {
                 // TODO: get numMovesProtection here
+                try {
+                    numMovesProtection = Integer.parseInt(line.split(":")[1].strip());
+                } catch (NumberFormatException e) {
+                    throw new InvalidConfigurationError("Invalid number of protection moves");
+                }
             } else {
                 throw new InvalidGameException("Unexpected EOF when parsing number of columns");
             }
@@ -81,12 +93,20 @@ public class Deserializer {
              *  If success, assign to {@link Deserializer#centralPlace}
              *  Hint: You may use {@link Deserializer#parsePlace(String)}
              */
-
+            line = getFirstNonEmptyLine(reader);
+            if (line != null) {
+                this.centralPlace = parsePlace(line.split(":")[1].strip());
+            }
 
             int numPlayers;
             line = getFirstNonEmptyLine(reader);
             if (line != null) {
                 //TODO: get number of players here
+                try {
+                    numPlayers = Integer.parseInt(line.split(":")[1].strip());
+                } catch (NumberFormatException e) {
+                    throw new InvalidConfigurationError("Invalid number of players");
+                }
             } else {
                 throw new InvalidGameException("Unexpected EOF when parsing number of players");
             }
@@ -97,8 +117,23 @@ public class Deserializer {
              * create an array of players {@link Player} with length of numPlayers, and name it by the read-in name
              * Also create an array representing scores {@link Deserializer#storedScores} of players with length of numPlayers
              */
-            Player[] players;
-            // storedScores = new Integer[numPlayers];
+            Player[] players = new Player[numPlayers];
+            this.storedScores = new Integer[numPlayers];
+            for (int i = 0; i < numPlayers; i++) {
+                line = getFirstNonEmptyLine(reader);
+                if (line == null) {
+                    throw new InvalidGameException("Unexpected EOF when parsing player information");
+                }
+                String playerName = line.split(";")[0].split(":")[1].strip();
+                players[i] = new ConsolePlayer(playerName);
+                int playerScore;
+                try {
+                    playerScore = Integer.parseInt(line.split("; ")[1].split(":")[1].strip());
+                } catch (NumberFormatException e) {
+                    throw new InvalidConfigurationError("Invalid player score");
+                }
+                this.storedScores[i] = playerScore;
+            }
 
             // TODO
             /**
@@ -106,7 +141,7 @@ public class Deserializer {
              * if fail, throw InvalidConfigurationError exception
              * if success, assign to {@link Deserializer#configuration}
              */
-
+            this.configuration = new Configuration(size, players, numMovesProtection);
 
             // TODO
             /**
@@ -117,6 +152,10 @@ public class Deserializer {
              * - {@link Deserializer#parseMove(String)} ()}
              * - {@link Deserializer#parsePlace(String)} ()}
              */
+            line = getFirstNonEmptyLine(reader);
+            while (line != null && !line.startsWith("END")) {
+                this.moveRecords.add(parseMoveRecord(line.strip()));
+            }
 
         } catch (IOException ioe) {
             throw new InvalidGameException(ioe);
