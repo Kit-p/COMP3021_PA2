@@ -231,6 +231,64 @@ public class GamePlayPane extends BasePane {
      */
     public void startGame() {
         //TODO
+        if (this.game == null) {
+            return;
+        }
+        this.game.renderBoard(gamePlayCanvas);
+        Player currentPlayer = game.getCurrentPlayer();
+        Move[] availableMoves = game.getAvailableMoves(currentPlayer);
+        if (availableMoves.length <= 0) {
+            this.showInvalidMoveMsg("No available moves for the player " + currentPlayer.getName());
+            Player[] players = game.getConfiguration().getPlayers();
+            int player1Score = players[0].getScore();
+            int player2Score = players[1].getScore();
+            if (player1Score < player2Score) {
+                this.winner = players[0];
+            } else if (player1Score > player2Score) {
+                this.winner = players[1];
+            } else {
+                this.winner = currentPlayer;
+            }
+        } else if (this.winner == null) {
+            Move nextMove = null;
+            if (currentPlayer instanceof ConsolePlayer) {
+                this.enableCanvas();
+                if (this.moveSource != null && this.moveDest != null) {
+                    nextMove = new Move(moveSource, moveDest);
+                    this.moveSource = null;
+                    this.moveDest = null;
+                    this.disnableCanvas();
+                }
+            } else {
+                this.disnableCanvas();
+                nextMove = currentPlayer.nextMove(game, availableMoves);
+            }
+            if (nextMove != null) {
+                Piece nextPiece = game.getPiece(nextMove.getSource());
+                if (nextPiece == null) {
+                    this.showInvalidMoveMsg("the source of move should have a piece");
+                } else if (!(nextPiece.getPlayer().equals(currentPlayer))) {
+                    this.showInvalidMoveMsg("The piece you moved does not belong to you!");
+                } else {
+                    String ruleViolationReason = currentPlayer.validateMove(game, nextMove);
+                    if (ruleViolationReason != null) {
+                        this.showInvalidMoveMsg(ruleViolationReason);
+                    } else {
+                        AudioManager.getInstance().playSound(AudioManager.SoundRes.PLACE);
+                        Piece nextMovePiece = game.getPiece(nextMove.getSource());
+                        this.game.movePiece(nextMove);
+                        this.game.switchPlayer();
+                        this.ticksElapsed.set(0);
+                        this.game.updateScore(currentPlayer, nextMovePiece, nextMove);
+                        this.winner = game.getWinner(currentPlayer, nextMovePiece, nextMove);
+                        this.updateHistoryField(nextMove);
+                        this.checkWinner();
+                    }
+                }
+            }
+        } else {
+            this.checkWinner();
+        }
     }
 
     /**
