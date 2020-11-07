@@ -101,8 +101,8 @@ public class GamePlayPane extends BasePane {
         //TODO
         this.topBar.getChildren().add(title);
         this.topBar.setAlignment(Pos.CENTER);
-        this.leftContainer.getChildren().addAll(this.parameterText, this.historyLabel, this.scrollPane, this.startButton, this.restartButton, this.returnButton);
-        this.centerContainer.getChildren().addAll(gamePlayCanvas);
+        this.leftContainer.getChildren().addAll(this.parameterText, this.historyLabel, this.scrollPane
+                , this.startButton, this.restartButton, this.returnButton);
         this.setTop(topBar);
         this.setLeft(leftContainer);
         this.setCenter(centerContainer);
