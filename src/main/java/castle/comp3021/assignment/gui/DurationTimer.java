@@ -69,6 +69,7 @@ public class DurationTimer {
      */
     void start() {
         //TODO
+        this.flowTimer = new Timer(true);
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
@@ -77,7 +78,7 @@ public class DurationTimer {
                 onTimeUpCallbacks.forEach(Runnable::run);
             }
         };
-        flowTimer.scheduleAtFixedRate(timerTask, 1000L, 1000L);
+        this.flowTimer.scheduleAtFixedRate(timerTask, 1000L, 1000L);
     }
 
     /**
