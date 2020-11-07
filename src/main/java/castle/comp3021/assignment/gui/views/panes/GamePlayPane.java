@@ -457,6 +457,15 @@ public class GamePlayPane extends BasePane {
      */
     private void doQuitToMenuAction() {
         // TODO
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm");
+        alert.setHeaderText("Return to menu?");
+        alert.setContentText("Game progress will be lost.");
+        alert.getButtonTypes().setAll(ButtonType.CANCEL, ButtonType.OK);
+        alert.showAndWait();
+        if (alert.getResult().equals(ButtonType.OK)) {
+            this.doQuitToMenu();
+        }
     }
 
     /**
