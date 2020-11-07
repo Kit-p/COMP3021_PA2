@@ -516,5 +516,20 @@ public class GamePlayPane extends BasePane {
      */
     private void endGame() {
         //TODO
+        if (this.game != null) {
+            this.game.stopCountdown();
+        }
+        this.disnableCanvas();
+        this.gamePlayCanvas.getGraphicsContext2D().clearRect(0, 0
+                , gamePlayCanvas.getWidth(), gamePlayCanvas.getHeight());
+        this.historyFiled.setText("");
+        this.startButton.setDisable(false);
+        this.restartButton.setDisable(true);
+        this.ticksElapsed.set(0);
+        this.centerContainer.getChildren().clear();
+        this.infoPane = null;
+        this.winner = null;
+        this.moveSource = null;
+        this.moveDest = null;
     }
 }
