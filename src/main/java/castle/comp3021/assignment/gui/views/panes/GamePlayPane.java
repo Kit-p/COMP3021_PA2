@@ -297,6 +297,20 @@ public class GamePlayPane extends BasePane {
      */
     private void onRestartButtonClick(){
         //TODO
+        this.endGame();
+        Configuration configuration = game.getConfiguration();
+        Piece[][] board = configuration.getInitialBoard();
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                board[i][j] = null;
+            }
+        }
+        configuration.setAllInitialPieces();
+        Player[] players = configuration.getPlayers();
+        for (Player player : players) {
+            player.setScore(0);
+        }
+        this.initializeGame(new FXJesonMor(configuration));
     }
 
     /**
