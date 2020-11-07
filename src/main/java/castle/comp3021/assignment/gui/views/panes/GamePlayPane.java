@@ -85,7 +85,10 @@ public class GamePlayPane extends BasePane {
      *      - other global variable you want to note down.
      */
     // TODO
-
+    private FXJesonMor game = null;
+    private Player winner = null;
+    private Place moveSource = null;
+    private Place moveDest = null;
 
     public GamePlayPane() {
         connectComponents();
