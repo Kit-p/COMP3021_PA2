@@ -69,9 +69,10 @@ public class AudioManager {
             path = ResourceLoader.getResource(path);
             MediaPlayer mediaPlayer = new MediaPlayer(new Media(path));
             mediaPlayer.setOnEndOfMedia(() -> {
-                mediaPlayer.stop();
                 this.soundPool.remove(mediaPlayer);
-                mediaPlayer.dispose();
+                Thread disposeThread = new Thread(mediaPlayer::dispose);
+                disposeThread.setDaemon(true);
+                disposeThread.start();
             });
             this.soundPool.add(mediaPlayer);
             mediaPlayer.play();
