@@ -407,6 +407,10 @@ public class GamePlayPane extends BasePane {
      */
     private void createWinPopup(String winnerName){
         //TODO
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Congratulations!");
+        alert.setContentText(winnerName + " wins!");
+        this.onGameEndAlert(alert);
     }
 
 
