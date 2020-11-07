@@ -419,6 +419,13 @@ public class GamePlayPane extends BasePane {
      */
     private void checkWinner(){
         //TODO
+        if (this.winner != null) {
+            AudioManager.getInstance().playSound(AudioManager.SoundRes.WIN);
+            this.game.stopCountdown();
+            String winnerName = winner.getName();
+            this.endGame();
+            this.createWinPopup(winnerName);
+        }
     }
 
     /**
