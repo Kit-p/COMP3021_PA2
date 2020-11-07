@@ -3,22 +3,33 @@ package castle.comp3021.assignment.gui.views.panes;
 import castle.comp3021.assignment.gui.DurationTimer;
 import castle.comp3021.assignment.gui.FXJesonMor;
 import castle.comp3021.assignment.gui.ViewConfig;
+import castle.comp3021.assignment.gui.controllers.AudioManager;
+import castle.comp3021.assignment.gui.controllers.Renderer;
+import castle.comp3021.assignment.gui.controllers.SceneManager;
 import castle.comp3021.assignment.gui.views.BigButton;
 import castle.comp3021.assignment.gui.views.BigVBox;
 import castle.comp3021.assignment.gui.views.GameplayInfoPane;
 import castle.comp3021.assignment.gui.views.SideMenuVBox;
+import castle.comp3021.assignment.player.ConsolePlayer;
 import castle.comp3021.assignment.protocol.*;
-import castle.comp3021.assignment.gui.controllers.Renderer;
+import castle.comp3021.assignment.protocol.io.Serializer;
+import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 
 /**
  * This class implements the main playing function of Jeson Mor
@@ -155,6 +166,38 @@ public class GamePlayPane extends BasePane {
      */
     void initializeGame(@NotNull FXJesonMor fxJesonMor) {
         //TODO
+        if (this.game != null) {
+            this.endGame();
+        }
+        this.game = fxJesonMor;
+        this.infoPane = new GameplayInfoPane(game.getPlayer1Score(), game.getPlayer2Score()
+                , game.getCurPlayerName(), ticksElapsed);
+        HBox.setHgrow(infoPane, Priority.ALWAYS);
+        this.centerContainer.getChildren().addAll(gamePlayCanvas, infoPane);
+        this.startButton.setDisable(false);
+        this.restartButton.setDisable(true);
+        this.disnableCanvas();
+        int length = game.getConfiguration().getSize() * ViewConfig.PIECE_SIZE;
+        this.gamePlayCanvas.setWidth(length);
+        this.gamePlayCanvas.setHeight(length);
+        this.game.addOnTickHandler(() -> Platform.runLater(() -> {
+            this.ticksElapsed.set(ticksElapsed.get() + 1);
+            this.startGame();
+        }));
+        this.game.addOnTimeUpHandler(() -> Platform.runLater(this::onTimeUp));
+        Configuration configuration = game.getConfiguration();
+        int size = configuration.getSize();
+        int numMoveProtection = configuration.getNumMovesProtection();
+        Player[] players = configuration.getPlayers();
+        String firstPlayerType = configuration.isFirstPlayerHuman() ? "(human)" : "(computer)";
+        String secondPlayerType = configuration.isSecondPlayerHuman() ? "(human)" : "(computer)";
+        String parameterText = "Parameters:\n\nSize of board: " + size
+                + "\nNum of protection moves: " + numMoveProtection
+                + "\nPlayer " + players[0].getName() + firstPlayerType
+                + "\nPlayer " + players[1].getName() + secondPlayerType + "\n";
+        this.parameterText.setText(parameterText);
+        this.parameterText.setDisable(true);
+        this.game.renderBoard(gamePlayCanvas);
     }
 
     /**
