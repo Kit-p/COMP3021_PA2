@@ -125,6 +125,19 @@ public class GamePlayPane extends BasePane {
     @Override
     void setCallbacks() {
         //TODO
+        this.startButton.setDisable(false);
+        this.restartButton.setDisable(true);
+        this.startButton.setOnAction(actionEvent -> {
+            this.startButton.setDisable(true);
+            this.restartButton.setDisable(false);
+            this.game.startCountdown();
+            this.startGame();
+        });
+        this.restartButton.setOnAction(actionEvent -> this.onRestartButtonClick());
+        this.returnButton.setOnAction(actionEvent -> this.doQuitToMenuAction());
+        this.gamePlayCanvas.setOnMousePressed(this::onCanvasPressed);
+        this.gamePlayCanvas.setOnMouseDragged(this::onCanvasDragged);
+        this.gamePlayCanvas.setOnMouseReleased(this::onCanvasReleased);
     }
 
     /**
