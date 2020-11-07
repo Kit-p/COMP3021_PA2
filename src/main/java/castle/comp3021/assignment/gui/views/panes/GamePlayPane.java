@@ -465,6 +465,11 @@ public class GamePlayPane extends BasePane {
      */
     private void updateHistoryField(Move move){
         //TODO
+        Place source = move.getSource();
+        Place dest = move.getDestination();
+        String moveHistoryRecord = "\n[" + source.x() + ", " + source.y()
+                + "] -> [" + dest.x() + ", " + dest.y() + "]";
+        this.historyFiled.setText(historyFiled.getText() + moveHistoryRecord);
     }
 
     /**
