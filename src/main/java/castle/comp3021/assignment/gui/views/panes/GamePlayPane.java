@@ -324,6 +324,11 @@ public class GamePlayPane extends BasePane {
      */
     private void onCanvasPressed(MouseEvent event){
         // TODO
+        AudioManager.getInstance().playSound(AudioManager.SoundRes.CLICK);
+        int x = toBoardCoordinate(event.getX());
+        int y = toBoardCoordinate(event.getY());
+        Renderer.drawRectangle(gamePlayCanvas.getGraphicsContext2D(), x, y);
+        this.moveSource = new Place(x, y);
     }
 
     /**
@@ -335,6 +340,9 @@ public class GamePlayPane extends BasePane {
      */
     private void onCanvasDragged(MouseEvent event){
         //TODO
+        double x = event.getX();
+        double y = event.getY();
+        Renderer.drawOval(gamePlayCanvas.getGraphicsContext2D(), x, y);
     }
 
     /**
@@ -347,6 +355,51 @@ public class GamePlayPane extends BasePane {
      */
     private void onCanvasReleased(MouseEvent event){
         // TODO
+        int x = toBoardCoordinate(event.getX());
+        int y = toBoardCoordinate(event.getY());
+        this.moveDest = new Place(x, y);
+        this.startGame();
+    }
+
+    /**
+     * Time up handler
+     */
+    private void onTimeUp() {
+        if (this.ticksElapsed.get() >= DurationTimer.getDefaultEachRound()) {
+            AudioManager.getInstance().playSound(AudioManager.SoundRes.LOSE);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Sorry! Time's out!");
+            alert.setContentText(game.getCurrentPlayer().getName() + " Lose!");
+            Platform.runLater(() -> this.onGameEndAlert(alert));
+            Platform.runLater(() -> this.ticksElapsed.set(0));
+            this.game.stopCountdown();
+        }
+    }
+
+    /**
+     * End game alert handler
+     */
+    private void onGameEndAlert(Alert alert) {
+        final String startNewGame = "Start New Game";
+        final String exportMoveRecords = "Export Move Records";
+        final String returnToMainMenu = "Return to Main Menu";
+        ButtonType restartButton = new ButtonType(startNewGame);
+        ButtonType exportButton = new ButtonType(exportMoveRecords);
+        ButtonType returnButton = new ButtonType(returnToMainMenu);
+        alert.getButtonTypes().setAll(restartButton, exportButton, returnButton);
+        ButtonType result = alert.showAndWait().orElseThrow();
+        switch (result.getText()) {
+            case startNewGame -> this.onRestartButtonClick();
+            case exportMoveRecords -> {
+                try {
+                    Serializer.getInstance().saveToFile(game);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                this.onRestartButtonClick();
+            }
+            default -> this.doQuitToMenu();
+        }
     }
 
     /**
