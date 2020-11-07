@@ -503,7 +503,7 @@ public class GamePlayPane extends BasePane {
      */
     private int toBoardCoordinate(double x){
         // TODO
-        return 0;
+        return (int)(Math.floor(x / ViewConfig.PIECE_SIZE));
     }
 
     /**
