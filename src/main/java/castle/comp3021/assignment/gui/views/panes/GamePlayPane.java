@@ -487,6 +487,11 @@ public class GamePlayPane extends BasePane {
      */
     private void doQuitToMenu() {
         // TODO
+        this.endGame();
+        this.game = null;
+        this.gamePlayCanvas.setHeight(0);
+        this.gamePlayCanvas.setWidth(0);
+        SceneManager.getInstance().showPane(MainMenuPane.class);
     }
 
     /**
