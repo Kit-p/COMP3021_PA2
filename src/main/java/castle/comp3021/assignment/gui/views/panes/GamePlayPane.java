@@ -281,6 +281,7 @@ public class GamePlayPane extends BasePane {
                         this.game.updateScore(currentPlayer, nextMovePiece, nextMove);
                         this.winner = game.getWinner(currentPlayer, nextMovePiece, nextMove);
                         this.updateHistoryField(nextMove);
+                        this.game.renderBoard(gamePlayCanvas);
                         this.checkWinner();
                     }
                 }

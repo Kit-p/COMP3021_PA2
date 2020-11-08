@@ -9,7 +9,7 @@ import castle.comp3021.assignment.gui.views.BigVBox;
 import castle.comp3021.assignment.gui.views.NumberTextField;
 import castle.comp3021.assignment.gui.views.SideMenuVBox;
 import castle.comp3021.assignment.player.ConsolePlayer;
-import castle.comp3021.assignment.player.SmartRandomPlayer;
+import castle.comp3021.assignment.player.RandomPlayer;
 import castle.comp3021.assignment.protocol.Configuration;
 import castle.comp3021.assignment.protocol.Player;
 import javafx.scene.control.Alert;
@@ -144,7 +144,7 @@ public class SettingPane extends BasePane {
             if (globalPlayers[i] instanceof ConsolePlayer) {
                 newPlayer = new ConsolePlayer(globalPlayers[i].getName(), globalPlayers[i].getColor());
             } else {
-                newPlayer = new SmartRandomPlayer(globalPlayers[i].getName(), globalPlayers[i].getColor());
+                newPlayer = new RandomPlayer(globalPlayers[i].getName(), globalPlayers[i].getColor());
             }
             globalPlayers[i] = newPlayer;
         }
