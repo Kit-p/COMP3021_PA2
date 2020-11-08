@@ -7,6 +7,7 @@ import castle.comp3021.assignment.gui.views.BigButton;
 import castle.comp3021.assignment.gui.views.BigVBox;
 import castle.comp3021.assignment.gui.views.NumberTextField;
 import castle.comp3021.assignment.player.ConsolePlayer;
+import castle.comp3021.assignment.player.RandomPlayer;
 import castle.comp3021.assignment.player.SmartRandomPlayer;
 import castle.comp3021.assignment.protocol.Configuration;
 import castle.comp3021.assignment.protocol.Player;
@@ -51,6 +52,8 @@ public class GamePane extends BasePane {
     private FXJesonMor fxJesonMor = null;
     private Configuration localConfiguration;
 
+    private final Button randomFightButton = new BigButton("Random VS Smart");
+
     public GamePane() {
         fillValues();
         connectComponents();
@@ -61,7 +64,8 @@ public class GamePane extends BasePane {
     @Override
     void connectComponents() {
         //TODO
-        this.container.getChildren().addAll(title, sizeBox, numMovesProtectionBox, isHumanPlayer1Button, isHumanPlayer2Button, useDefaultButton, playButton, returnButton);
+        this.container.getChildren().addAll(title, sizeBox, numMovesProtectionBox, isHumanPlayer1Button
+                , isHumanPlayer2Button, useDefaultButton, playButton, randomFightButton, returnButton);
         this.setCenter(container);
     }
 
@@ -111,12 +115,28 @@ public class GamePane extends BasePane {
                 } catch (CloneNotSupportedException e) {
                     e.printStackTrace();
                 }
-                Configuration configuration = new Configuration(sizeFiled.getValue(), players, numMovesProtectionField.getValue());
+                Configuration configuration =
+                        new Configuration(sizeFiled.getValue(), players, numMovesProtectionField.getValue());
                 this.fxJesonMor = new FXJesonMor(configuration);
                 this.startGame(fxJesonMor);
             }
         });
         this.returnButton.setOnAction(actionEvent -> SceneManager.getInstance().showPane(MainMenuPane.class));
+        this.randomFightButton.setOnAction(actionEvent -> {
+            Optional<String> errorMessage = validate(sizeFiled.getValue(), numMovesProtectionField.getValue());
+            if (errorMessage.isPresent()) {
+                Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                errorAlert.setHeaderText("Validation Failed");
+                errorAlert.setContentText(errorMessage.get());
+                errorAlert.showAndWait();
+            } else {
+                Player[] players = new Player[]{new RandomPlayer("White"), new SmartRandomPlayer("Black")};
+                Configuration configuration =
+                        new Configuration(sizeFiled.getValue(), players, numMovesProtectionField.getValue());
+                this.fxJesonMor = new FXJesonMor(configuration);
+                this.startGame(fxJesonMor);
+            }
+        });
     }
 
     /**
@@ -144,7 +164,7 @@ public class GamePane extends BasePane {
             if (globalPlayers[i] instanceof ConsolePlayer) {
                 newPlayer = new ConsolePlayer(globalPlayers[i].getName(), globalPlayers[i].getColor());
             } else {
-                newPlayer = new SmartRandomPlayer(globalPlayers[i].getName(), globalPlayers[i].getColor());
+                newPlayer = new RandomPlayer(globalPlayers[i].getName(), globalPlayers[i].getColor());
             }
             globalPlayers[i] = newPlayer;
         }
