@@ -1,0 +1,59 @@
+### FXJesonMor ###
+
+#Game setting
+size:15
+numMovesProtection:40
+centralPlace:(7,7)
+numPlayers:2
+
+#Player info
+#player1:
+name:White; score:123
+#player2:
+name:Black; score:45
+
+#Move records
+Player:White; move:(11,0)->(11,12)
+Player:Black; move:(2,14)->(3,12)
+Player:White; move:(7,0)->(7,2)
+Player:Black; move:(3,12)->(5,11)
+Player:White; move:(11,12)->(11,2)
+Player:Black; move:(12,14)->(11,12)
+Player:White; move:(3,0)->(3,10)
+Player:Black; move:(4,14)->(3,12)
+Player:White; move:(5,0)->(5,9)
+Player:Black; move:(5,11)->(7,10)
+Player:White; move:(3,10)->(3,11)
+Player:Black; move:(11,12)->(9,11)
+Player:White; move:(13,0)->(13,3)
+Player:Black; move:(3,12)->(5,11)
+Player:White; move:(3,11)->(3,7)
+Player:Black; move:(5,11)->(6,9)
+Player:White; move:(3,7)->(0,7)
+Player:Black; move:(9,11)->(8,9)
+Player:White; move:(1,0)->(1,10)
+Player:Black; move:(5,14)->(5,13)
+Player:White; move:(13,3)->(0,3)
+Player:Black; move:(10,14)->(11,12)
+Player:White; move:(11,2)->(11,8)
+Player:Black; move:(8,9)->(7,7)
+Player:White; move:(5,9)->(5,6)
+Player:Black; move:(11,14)->(10,14)
+Player:White; move:(0,0)->(1,2)
+Player:Black; move:(13,14)->(13,13)
+Player:White; move:(11,8)->(7,8)
+Player:Black; move:(3,14)->(2,14)
+Player:White; move:(5,6)->(7,6)
+Player:Black; move:(2,14)->(2,13)
+Player:White; move:(7,6)->(14,6)
+Player:Black; move:(13,13)->(14,13)
+Player:White; move:(0,7)->(5,7)
+Player:Black; move:(2,13)->(3,13)
+Player:White; move:(14,6)->(14,4)
+Player:Black; move:(3,13)->(2,13)
+Player:White; move:(14,4)->(3,4)
+Player:Black; move:(5,13)->(6,13)
+Player:White; move:(5,7)->(2,7)
+Player:Black; move:(7,7)->(9,6)
+
+END

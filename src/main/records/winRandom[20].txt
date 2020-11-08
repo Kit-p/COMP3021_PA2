@@ -1,0 +1,39 @@
+### FXJesonMor ###
+
+#Game setting
+size:15
+numMovesProtection:20
+centralPlace:(7,7)
+numPlayers:2
+
+#Player info
+#player1:
+name:White; score:52
+#player2:
+name:Black; score:29
+
+#Move records
+Player:White; move:(5,0)->(5,4)
+Player:Black; move:(4,14)->(3,12)
+Player:White; move:(1,0)->(1,12)
+Player:Black; move:(1,14)->(1,13)
+Player:White; move:(3,0)->(3,9)
+Player:Black; move:(10,14)->(11,12)
+Player:White; move:(9,0)->(9,3)
+Player:Black; move:(3,12)->(4,10)
+Player:White; move:(3,9)->(3,10)
+Player:Black; move:(4,10)->(5,8)
+Player:White; move:(4,0)->(2,1)
+Player:Black; move:(2,14)->(3,12)
+Player:White; move:(11,0)->(11,3)
+Player:Black; move:(3,12)->(4,10)
+Player:White; move:(9,3)->(9,8)
+Player:Black; move:(4,10)->(6,9)
+Player:White; move:(12,0)->(13,2)
+Player:Black; move:(5,8)->(7,7)
+Player:White; move:(9,8)->(2,8)
+Player:Black; move:(1,13)->(2,13)
+Player:White; move:(3,10)->(1,10)
+Player:Black; move:(7,7)->(8,9)
+
+END
