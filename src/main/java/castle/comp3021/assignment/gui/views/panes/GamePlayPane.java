@@ -18,7 +18,6 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -50,7 +49,7 @@ import java.io.IOException;
  *      - If one player runs out of time of each round {@link DurationTimer#getDefaultEachRound()}, then the player loses the game.
  * Hint:
  *      - You may find it useful to synchronize javafx UI-thread using {@link javafx.application.Platform#runLater}
- */ 
+ */
 
 public class GamePlayPane extends BasePane {
     @NotNull
@@ -318,7 +317,7 @@ public class GamePlayPane extends BasePane {
      * Play click.mp3
      * draw a rectangle at clicked board tile to show which tile is selected
      * Hint:
-     *      - Highlight the selected board cell using {@link Renderer#drawRectangle(GraphicsContext, double, double)}
+     *      - Highlight the selected board cell using Renderer.drawRectangle(GraphicsContext, double, double)
      *      - Refer to {@link GamePlayPane#toBoardCoordinate(double)} for help
      * @param event mouse click
      */
@@ -334,7 +333,7 @@ public class GamePlayPane extends BasePane {
     /**
      * When mouse dragging, draw a path
      * Hint:
-     *      - When mouse dragging, you can use {@link Renderer#drawOval(GraphicsContext, double, double)} to show the path
+     *      - When mouse dragging, you can use Renderer.drawOval(GraphicsContext, double, double) to show the path
      *      - Refer to {@link GamePlayPane#toBoardCoordinate(double)} for help
      * @param event mouse position
      */

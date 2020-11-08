@@ -40,13 +40,15 @@ public class GamePane extends BasePane {
     private final NumberTextField sizeFiled = new NumberTextField("");
 
 
-    private final BorderPane sizeBox = new BorderPane(null, null, sizeFiled, null, new Label("Size of Board:"));
+    private final BorderPane sizeBox = new BorderPane(null, null
+            , sizeFiled, null, new Label("Size of Board:"));
 
     @NotNull
     private final NumberTextField numMovesProtectionField = new NumberTextField("");
 
     @NotNull
-    private final BorderPane numMovesProtectionBox = new BorderPane(null, null, numMovesProtectionField, null, new Label("Protection Moves:"));
+    private final BorderPane numMovesProtectionBox = new BorderPane(null, null
+            , numMovesProtectionField, null, new Label("Protection Moves:"));
 
 
     private FXJesonMor fxJesonMor = null;

@@ -33,8 +33,8 @@ public class SmartRandomPlayer extends Player {
     @Override
     public @NotNull Move nextMove(Game game, Move[] availableMoves) {
         //TODO: bonus only
-        final int N = game.getConfiguration().getSize() / 3;
-        Move[] bestNMoves = filterBestNMoves(game, availableMoves, N);
+        final int n = game.getConfiguration().getSize() / 3;
+        Move[] bestNMoves = filterBestNMoves(game, availableMoves, n);
         int index = new Random().nextInt(bestNMoves.length);
         return bestNMoves[index];
     }
@@ -119,14 +119,14 @@ public class SmartRandomPlayer extends Player {
      * @return calculated rating
      */
     private int rateMoveByCapture(Game game, Move move) {
-        final int WEIGHING_FACTOR = game.getConfiguration().getSize() * 50;
-        final int KNIGHT_SCORE = WEIGHING_FACTOR * 5;
-        final int ARCHER_SCORE = WEIGHING_FACTOR * 2;
+        final int weighingFactor = game.getConfiguration().getSize() * 50;
+        final int knightScore = weighingFactor * 5;
+        final int archerScore = weighingFactor * 2;
         Piece capturingPiece = game.getPiece(move.getDestination());
         if (capturingPiece instanceof Knight) {
-            return KNIGHT_SCORE;
+            return knightScore;
         } else if (capturingPiece instanceof Archer) {
-            return ARCHER_SCORE;
+            return archerScore;
         }
         return 0;
     }
@@ -141,10 +141,10 @@ public class SmartRandomPlayer extends Player {
         Configuration configuration = game.getConfiguration();
         boolean protectionExpired = (game.getNumMoves() >= configuration.getNumMovesProtection());
         int size = configuration.getSize();
-        final int WEIGHING_FACTOR = size * 20;
-        final int KNIGHT_BONUS = (hasCapturedCentralPlace(game)) ? 0 : 5;
-        final int KNIGHT_ASSIST_BONUS = (!protectionExpired) ? 0 : 1;
-        final int ARCHER_ATTACK_BONUS = (!protectionExpired) ? 0 : 10;
+        final int weighingFactor = size * 20;
+        final int knightBonus = (hasCapturedCentralPlace(game)) ? 0 : 5;
+        final int knightAssistBonus = (!protectionExpired) ? 0 : 1;
+        final int archerAttackBonus = (!protectionExpired) ? 0 : 10;
         Place source = move.getSource();
         Place destination = move.getDestination();
         Place centralPlace = configuration.getCentralPlace();
@@ -153,23 +153,23 @@ public class SmartRandomPlayer extends Player {
         if (piece instanceof Knight) {
             int currentDistance = getManhattanDistance(source, centralPlace);
             int newDistance = getManhattanDistance(destination, centralPlace);
-            int currentBonus = (currentDistance % 3 != 0) ? 0 : KNIGHT_BONUS;
-            int newBonus = (newDistance % 3 != 0) ? 0 : KNIGHT_BONUS;
+            int currentBonus = (currentDistance % 3 != 0) ? 0 : knightBonus;
+            int newBonus = (newDistance % 3 != 0) ? 0 : knightBonus;
             int score = currentDistance * newBonus - newDistance * currentBonus;
             score *= (size - newDistance);
             totalScore += score;
             if (canAnyArcherFire(game, destination)) {
-                totalScore += KNIGHT_ASSIST_BONUS;
+                totalScore += knightAssistBonus;
             }
         } else if (piece instanceof Archer) {
             if (canAnyArcherFire(game, destination)) {
-                totalScore += ARCHER_ATTACK_BONUS;
+                totalScore += archerAttackBonus;
             }
             if (source.equals(centralPlace)) {
-                return Integer.MAX_VALUE / WEIGHING_FACTOR;
+                return Integer.MAX_VALUE / weighingFactor;
             }
         }
-        return WEIGHING_FACTOR * totalScore;
+        return weighingFactor * totalScore;
     }
 
     /**
