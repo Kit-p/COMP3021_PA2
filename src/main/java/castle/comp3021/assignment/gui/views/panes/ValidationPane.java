@@ -61,6 +61,7 @@ public class ValidationPane extends BasePane{
     private BooleanProperty isValid = new SimpleBooleanProperty(false);
 
     private String onloadErrorMessage = null;
+    private Thread runningThread = null;
 
 
     public ValidationPane() {
@@ -171,9 +172,19 @@ public class ValidationPane extends BasePane{
      */
     private void onClickReplayButton(){
         //TODO
-        if (!(isValid.get())) {
+        if (!(isValid.get()) || (this.runningThread != null && this.runningThread.isAlive())) {
             return;
         }
+        for (Player player : loadedConfiguration.getPlayers()) {
+            player.setScore(0);
+        }
+        Piece[][] board = loadedConfiguration.getInitialBoard();
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                board[i][j] = null;
+            }
+        }
+        loadedConfiguration.setAllInitialPieces();
         this.loadedGame = new FXJesonMor(loadedConfiguration);
         int size = loadedConfiguration.getSize() * ViewConfig.PIECE_SIZE;
         this.gamePlayCanvas.setHeight(size);
@@ -182,11 +193,15 @@ public class ValidationPane extends BasePane{
         Task<Void> task = new Task<>() {
             @Override
             protected Void call() {
+                FXJesonMor game = loadedGame;
                 for (MoveRecord moveRecord : loadedMoveRecords) {
                     Platform.runLater(() -> {
+                        if (game != loadedGame) {
+                            return;
+                        }
                         AudioManager.getInstance().playSound(AudioManager.SoundRes.PLACE);
-                        loadedGame.movePiece(moveRecord.getMove());
-                        loadedGame.renderBoard(gamePlayCanvas);
+                        game.movePiece(moveRecord.getMove());
+                        game.renderBoard(gamePlayCanvas);
                     });
                     try {
                         Thread.sleep(1000);
@@ -197,7 +212,8 @@ public class ValidationPane extends BasePane{
                 return null;
             }
         };
-        new Thread(task).start();
+        this.runningThread = new Thread(task);
+        this.runningThread.start();
     }
 
     /**
