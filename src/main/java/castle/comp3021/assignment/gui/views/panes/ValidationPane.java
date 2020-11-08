@@ -120,7 +120,6 @@ public class ValidationPane extends BasePane{
      */
     private boolean loadFromFile() {
         //TODO
-        this.unloadFile();
         File file = getTargetLoadFile();
         if (file == null) {
             return false;
@@ -128,6 +127,7 @@ public class ValidationPane extends BasePane{
         try {
             Deserializer deserializer = new Deserializer(file.toPath());
             deserializer.parseGame();
+            this.unloadFile();
             this.loadedConfiguration = deserializer.getLoadedConfiguration();
             this.storedScores = deserializer.getStoredScores();
             this.loadedMoveRecords = deserializer.getMoveRecords();
