@@ -6,6 +6,8 @@ import castle.comp3021.assignment.gui.controllers.SceneManager;
 import castle.comp3021.assignment.gui.views.BigButton;
 import castle.comp3021.assignment.gui.views.BigVBox;
 import castle.comp3021.assignment.gui.views.NumberTextField;
+import castle.comp3021.assignment.player.ConsolePlayer;
+import castle.comp3021.assignment.player.SmartRandomPlayer;
 import castle.comp3021.assignment.protocol.Configuration;
 import castle.comp3021.assignment.protocol.Player;
 import javafx.scene.control.Alert;
@@ -47,6 +49,7 @@ public class GamePane extends BasePane {
 
 
     private FXJesonMor fxJesonMor = null;
+    private Configuration localConfiguration;
 
     public GamePane() {
         fillValues();
@@ -82,14 +85,14 @@ public class GamePane extends BasePane {
     void setCallbacks() {
         //TODO
         this.isHumanPlayer1Button.setOnAction(actionEvent -> {
-            boolean isFirstPlayerHuman = !globalConfiguration.isFirstPlayerHuman();
-            globalConfiguration.setFirstPlayerHuman(isFirstPlayerHuman);
+            boolean isFirstPlayerHuman = !localConfiguration.isFirstPlayerHuman();
+            this.localConfiguration.setFirstPlayerHuman(isFirstPlayerHuman);
             String playerType = isFirstPlayerHuman ? "Human" : "Computer";
             this.isHumanPlayer1Button.setText("Player 1: " + playerType);
         });
         this.isHumanPlayer2Button.setOnAction(actionEvent -> {
-            boolean isSecondPlayerHuman = !globalConfiguration.isSecondPlayerHuman();
-            globalConfiguration.setSecondPlayerHuman(isSecondPlayerHuman);
+            boolean isSecondPlayerHuman = !localConfiguration.isSecondPlayerHuman();
+            this.localConfiguration.setSecondPlayerHuman(isSecondPlayerHuman);
             String playerType = isSecondPlayerHuman ? "Human" : "Computer";
             this.isHumanPlayer2Button.setText("Player 2: " + playerType);
         });
@@ -102,7 +105,7 @@ public class GamePane extends BasePane {
                 errorAlert.setContentText(errorMessage.get());
                 errorAlert.showAndWait();
             } else {
-                Player[] players = globalConfiguration.getPlayers();
+                Player[] players = localConfiguration.getPlayers();
                 try {
                     players = new Player[]{players[0].clone(), players[1].clone()};
                 } catch (CloneNotSupportedException e) {
@@ -133,6 +136,19 @@ public class GamePane extends BasePane {
      */
     void fillValues(){
         // TODO
+        int globalSize = globalConfiguration.getSize();
+        int globalNumMovesProtection = globalConfiguration.getNumMovesProtection();
+        Player[] globalPlayers = globalConfiguration.getPlayers().clone();
+        for (int i = 0; i < globalPlayers.length; i++) {
+            Player newPlayer;
+            if (globalPlayers[i] instanceof ConsolePlayer) {
+                newPlayer = new ConsolePlayer(globalPlayers[i].getName(), globalPlayers[i].getColor());
+            } else {
+                newPlayer = new SmartRandomPlayer(globalPlayers[i].getName(), globalPlayers[i].getColor());
+            }
+            globalPlayers[i] = newPlayer;
+        }
+        this.localConfiguration = new Configuration(globalSize, globalPlayers, globalNumMovesProtection);
         this.sizeFiled.setText(String.valueOf(globalConfiguration.getSize()));
         this.numMovesProtectionField.setText(String.valueOf(globalConfiguration.getNumMovesProtection()));
         String playerType = globalConfiguration.isFirstPlayerHuman() ? "Human" : "Computer";

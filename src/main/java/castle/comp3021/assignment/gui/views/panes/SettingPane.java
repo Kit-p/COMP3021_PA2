@@ -8,7 +8,10 @@ import castle.comp3021.assignment.gui.views.BigButton;
 import castle.comp3021.assignment.gui.views.BigVBox;
 import castle.comp3021.assignment.gui.views.NumberTextField;
 import castle.comp3021.assignment.gui.views.SideMenuVBox;
+import castle.comp3021.assignment.player.ConsolePlayer;
+import castle.comp3021.assignment.player.SmartRandomPlayer;
 import castle.comp3021.assignment.protocol.Configuration;
+import castle.comp3021.assignment.protocol.Player;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -60,6 +63,9 @@ public class SettingPane extends BasePane {
     @NotNull
     private final TextArea infoText = new TextArea(ViewConfig.getAboutText());
 
+    private Configuration tempConfiguration;
+    private boolean isAudioEnabled;
+
 
     public SettingPane() {
         connectComponents();
@@ -105,22 +111,20 @@ public class SettingPane extends BasePane {
     void setCallbacks() {
         //TODO
         this.isHumanPlayer1Button.setOnAction(actionEvent -> {
-            boolean isFirstPlayerHuman = !globalConfiguration.isFirstPlayerHuman();
-            globalConfiguration.setFirstPlayerHuman(isFirstPlayerHuman);
+            boolean isFirstPlayerHuman = !tempConfiguration.isFirstPlayerHuman();
+            this.tempConfiguration.setFirstPlayerHuman(isFirstPlayerHuman);
             String playerType = isFirstPlayerHuman ? "Human" : "Computer";
             this.isHumanPlayer1Button.setText("Player 1: " + playerType);
         });
         this.isHumanPlayer2Button.setOnAction(actionEvent -> {
-            boolean isSecondPlayerHuman = !globalConfiguration.isSecondPlayerHuman();
-            globalConfiguration.setSecondPlayerHuman(isSecondPlayerHuman);
+            boolean isSecondPlayerHuman = !tempConfiguration.isSecondPlayerHuman();
+            this.tempConfiguration.setSecondPlayerHuman(isSecondPlayerHuman);
             String playerType = isSecondPlayerHuman ? "Human" : "Computer";
             this.isHumanPlayer2Button.setText("Player 2: " + playerType);
         });
         this.toggleSoundButton.setOnAction(actionEvent -> {
-            AudioManager audioManager = AudioManager.getInstance();
-            boolean isEnabled = !audioManager.isEnabled();
-            audioManager.setEnabled(isEnabled);
-            String toggleText = isEnabled ? "Enabled" : "Disabled";
+            this.isAudioEnabled = !isAudioEnabled;
+            String toggleText = isAudioEnabled ? "Enabled" : "Disabled";
             this.toggleSoundButton.setText("Sound FX: " + toggleText);
         });
         this.saveButton.setOnAction(actionEvent -> returnToMainMenu(true));
@@ -132,13 +136,27 @@ public class SettingPane extends BasePane {
      */
     private void fillValues() {
         // TODO
+        int globalSize = globalConfiguration.getSize();
+        int globalNumMovesProtection = globalConfiguration.getNumMovesProtection();
+        Player[] globalPlayers = globalConfiguration.getPlayers().clone();
+        for (int i = 0; i < globalPlayers.length; i++) {
+            Player newPlayer;
+            if (globalPlayers[i] instanceof ConsolePlayer) {
+                newPlayer = new ConsolePlayer(globalPlayers[i].getName(), globalPlayers[i].getColor());
+            } else {
+                newPlayer = new SmartRandomPlayer(globalPlayers[i].getName(), globalPlayers[i].getColor());
+            }
+            globalPlayers[i] = newPlayer;
+        }
+        this.tempConfiguration = new Configuration(globalSize, globalPlayers, globalNumMovesProtection);
+        this.isAudioEnabled = AudioManager.getInstance().isEnabled();
         this.sizeFiled.setText(String.valueOf(globalConfiguration.getSize()));
         this.numMovesProtectionField.setText(String.valueOf(globalConfiguration.getNumMovesProtection()));
         String buttonText = globalConfiguration.isFirstPlayerHuman() ? "Human" : "Computer";
         this.isHumanPlayer1Button.setText("Player 1: " + buttonText);
         buttonText = globalConfiguration.isSecondPlayerHuman() ? "Human" : "Computer";
         this.isHumanPlayer2Button.setText("Player 2: " + buttonText);
-        buttonText = AudioManager.getInstance().isEnabled() ? "Enabled" : "Disabled";
+        buttonText = isAudioEnabled ? "Enabled" : "Disabled";
         this.toggleSoundButton.setText("Sound FX: " + buttonText);
         durationField.setText(String.valueOf(DurationTimer.getDefaultEachRound()));
     }
@@ -161,6 +179,9 @@ public class SettingPane extends BasePane {
             } else {
                 globalConfiguration.setSize(sizeFiled.getValue());
                 globalConfiguration.setNumMovesProtection(numMovesProtectionField.getValue());
+                globalConfiguration.setFirstPlayerHuman(tempConfiguration.isFirstPlayerHuman());
+                globalConfiguration.setSecondPlayerHuman(tempConfiguration.isSecondPlayerHuman());
+                AudioManager.getInstance().setEnabled(isAudioEnabled);
                 DurationTimer.setDefaultEachRound(durationField.getValue());
             }
         }
