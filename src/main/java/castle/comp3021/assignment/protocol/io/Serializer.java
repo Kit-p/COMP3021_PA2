@@ -67,6 +67,7 @@ public class Serializer {
         try {
             PrintWriter writer = new PrintWriter(file);
             writer.print(content);
+            writer.close();
         } catch (FileNotFoundException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Cannot save move record to file!");
