@@ -195,6 +195,11 @@ public class ValidationPane extends BasePane{
             protected Void call() {
                 FXJesonMor game = loadedGame;
                 for (MoveRecord moveRecord : loadedMoveRecords) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     Platform.runLater(() -> {
                         if (game != loadedGame) {
                             return;
@@ -203,11 +208,6 @@ public class ValidationPane extends BasePane{
                         game.movePiece(moveRecord.getMove());
                         game.renderBoard(gamePlayCanvas);
                     });
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                 }
                 return null;
             }
