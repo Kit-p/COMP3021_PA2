@@ -53,11 +53,11 @@ public class Renderer {
      */
     public static void drawOval(@NotNull GraphicsContext gc, double x, double y) {
         // TODO
+        gc.save();
         gc.setFill(Color.rgb(255, 255, 220));
         gc.fillOval(x, y, 12, 12);
         gc.fill();
-        gc.setStroke(Color.WHITE);
-        gc.stroke();
+        gc.restore();
     }
 
     /**
@@ -74,8 +74,6 @@ public class Renderer {
         int size = ViewConfig.PIECE_SIZE;
         gc.fillRect(x * size, y * size, size, size);
         gc.fill();
-        gc.setStroke(Color.WHITE);
-        gc.stroke();
         gc.restore();
     }
 

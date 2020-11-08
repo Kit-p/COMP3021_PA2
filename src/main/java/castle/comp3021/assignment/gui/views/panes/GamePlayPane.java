@@ -234,7 +234,6 @@ public class GamePlayPane extends BasePane {
         if (this.game == null) {
             return;
         }
-        this.game.renderBoard(gamePlayCanvas);
         Player currentPlayer = game.getCurrentPlayer();
         Move[] availableMoves = game.getAvailableMoves(currentPlayer);
         if (availableMoves.length <= 0) {
@@ -358,6 +357,7 @@ public class GamePlayPane extends BasePane {
         int x = toBoardCoordinate(event.getX());
         int y = toBoardCoordinate(event.getY());
         this.moveDest = new Place(x, y);
+        this.game.renderBoard(gamePlayCanvas);
         this.startGame();
     }
 
