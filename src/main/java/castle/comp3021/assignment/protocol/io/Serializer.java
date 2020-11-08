@@ -39,8 +39,8 @@ public class Serializer {
     public void saveToFile(FXJesonMor fxJesonMor) throws IOException {
         //TODO
         FileChooser fileChooser = new FileChooser();
-        var mapFilter = new FileChooser.ExtensionFilter("Move Record File", "*.map");
-        fileChooser.setSelectedExtensionFilter(mapFilter);
+        var extensionFilter = new FileChooser.ExtensionFilter("Move Record File", "*.txt");
+        fileChooser.getExtensionFilters().add(extensionFilter);
         File file = fileChooser.showSaveDialog(null);
         if (file != null) {
             writeToFile(file, fxJesonMor.toString());

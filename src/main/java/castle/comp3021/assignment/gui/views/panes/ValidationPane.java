@@ -357,8 +357,8 @@ public class ValidationPane extends BasePane{
     private File getTargetLoadFile() {
         //TODO
         FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter mapFilter = new FileChooser.ExtensionFilter("Map File", "*.map");
-        fileChooser.setSelectedExtensionFilter(mapFilter);
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Move Record File", "*.txt", "*.TXT");
+        fileChooser.getExtensionFilters().add(extensionFilter);
         return fileChooser.showOpenDialog(null);
     }
 
