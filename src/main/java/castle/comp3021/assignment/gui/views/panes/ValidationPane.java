@@ -247,7 +247,7 @@ public class ValidationPane extends BasePane{
         }
         this.loadedGame = new FXJesonMor(this.loadedConfiguration);
         String ruleViolationReason = null;
-        Player winner = null;
+        Player winner;
         int numMoveRecords = loadedMoveRecords.size();
         for (int i = 0; i < numMoveRecords; i++) {
             MoveRecord moveRecord = loadedMoveRecords.get(i);
@@ -291,9 +291,6 @@ public class ValidationPane extends BasePane{
                     break;
                 }
             }
-        }
-        if (winner == null) {
-            ruleViolationReason = "No winner produced!";
         }
         if (ruleViolationReason != null) {
             this.showErrorConfiguration(ruleViolationReason);
