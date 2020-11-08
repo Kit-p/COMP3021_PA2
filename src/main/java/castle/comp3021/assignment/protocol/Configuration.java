@@ -269,8 +269,8 @@ public class Configuration implements Cloneable {
                 "\ncentralPlace:" + centralPlace.toString() +
                 "\nnumPlayers:" + players.length +
                 "\n\n#Player info\n#player1:" +
-                "\nname:" + players[0].getName() + ", score:" + players[0].getScore() +
-                "\nplayer2:" +
-                "\nname:" + players[1].getName() + ", score:" + players[1].getScore();
+                "\nname:" + players[0].getName() + "; score:" + players[0].getScore() +
+                "\n#player2:" +
+                "\nname:" + players[1].getName() + "; score:" + players[1].getScore();
     }
 }
