@@ -236,7 +236,7 @@ public class GamePlayPane extends BasePane {
         Player currentPlayer = game.getCurrentPlayer();
         Move[] availableMoves = game.getAvailableMoves(currentPlayer);
         if (availableMoves.length <= 0) {
-            this.showInvalidMoveMsg("No available moves for the player " + currentPlayer.getName());
+            Platform.runLater(() -> this.showInvalidMoveMsg("No available moves for the player " + currentPlayer.getName()));
             Player[] players = game.getConfiguration().getPlayers();
             int player1Score = players[0].getScore();
             int player2Score = players[1].getScore();
@@ -281,13 +281,11 @@ public class GamePlayPane extends BasePane {
                         this.winner = game.getWinner(currentPlayer, nextMovePiece, nextMove);
                         this.updateHistoryField(nextMove);
                         this.game.renderBoard(gamePlayCanvas);
-                        this.checkWinner();
                     }
                 }
             }
-        } else {
-            this.checkWinner();
         }
+        this.checkWinner();
     }
 
     /**
