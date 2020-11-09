@@ -1,13 +1,10 @@
 <component name="libraryTable">
   <library name="lib1">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/javafx-sdk-15-osx/lib" />
+      <root url="file://$PROJECT_DIR$/javafx-sdk-15-win-x64/lib" />
     </CLASSES>
     <JAVADOC />
-    <NATIVE>
-      <root url="file://$PROJECT_DIR$/javafx-sdk-15-osx/lib" />
-    </NATIVE>
     <SOURCES />
-    <jarDirectory url="file://$PROJECT_DIR$/javafx-sdk-15-osx/lib" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/javafx-sdk-15-win-x64/lib" recursive="false" />
   </library>
 </component>
