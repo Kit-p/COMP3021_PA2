@@ -255,9 +255,9 @@ public class Configuration implements Cloneable {
      *
      * #Player info
      * #player1:
-     * name:White, score:14
+     * name:White; score:14
      * #player2:
-     * name:Black, score:26
+     * name:Black; score:26
      *
      * @return the string of configuration
      */
