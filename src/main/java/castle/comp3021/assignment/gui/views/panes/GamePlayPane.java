@@ -165,7 +165,7 @@ public class GamePlayPane extends BasePane {
      */
     void initializeGame(@NotNull FXJesonMor fxJesonMor) {
         //TODO
-        if (this.game != null) {
+        if (this.game != null || this.winner != null) {
             this.endGame();
         }
         this.game = fxJesonMor;
@@ -230,7 +230,7 @@ public class GamePlayPane extends BasePane {
      */
     public void startGame() {
         //TODO
-        if (this.game == null) {
+        if (this.game == null || this.winner != null) {
             return;
         }
         Player currentPlayer = game.getCurrentPlayer();
