@@ -104,6 +104,9 @@ public class Deserializer {
                 //TODO: get number of players here
                 try {
                     numPlayers = Integer.parseInt(line.split(":")[1].strip());
+                    if (numPlayers != 2) {
+                        throw new InvalidConfigurationError("There must be exactly 2 players");
+                    }
                 } catch (NumberFormatException e) {
                     throw new InvalidConfigurationError("Invalid number of players");
                 }
@@ -161,6 +164,10 @@ public class Deserializer {
         } catch (IOException ioe) {
             throw new InvalidGameException(ioe);
         }
+    }
+
+    public Place getLoadedCentralPlace() {
+        return centralPlace;
     }
 
     public Configuration getLoadedConfiguration(){
